@@ -30,7 +30,11 @@ imprimirNombreEnMayusculas(dario)
 
 function cumpleanos(persona) { //lo que hace esta funcion es devolver un nuevo objeto pero con una edad mas
     return{
+<<<<<<< HEAD
         ...persona, // desglosa el objeto
+=======
+        ...persona,
+>>>>>>> be1d4a7f29de914b2cca072891df032299325a84
         edad: persona.edad + 1 //la edad que tenga la persona vas a incrementar 1 y lo vas a guardar en su atributo lo modificamos
     }
 }
