@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CLASE 27 - como funciona el tiempo en js (asincronismo)</title>
+</head>
+<body>
+    <script>
+// Pero que pasa si le decimos que tarde 0s setTimeout( () => console.log("b"), 0 )
+//      Y vemos en consola a luego c y b ¿Por qué?
+//      1ero ejecuta el console.log(“a”)
+//      Después ejecuta el setTimeout lo que hace es decirle al navegador ejecútame esta función en 0 seg.
+//      Lo que va a hacer el navegador es ok Agarrare esa función y la voy a poner en la cola de tareas es otra cola a la de la pila de ejecución, y js va a continuar ejecutando su programa
+//      Inmediatamente estará listo para ejecutar esa tarea pero no la ejecutara hasta que no termine el programa principal, despues que imprima c
+        // console.log("a")
+        // setTimeout( () => console.log("b"), 0 ) //PARA QUE UN CONSOLE LOG SE EJECUTE DENTRO DE 1 SEGUNDO // el primer parámetro es una función el segundo el delay en milisegundos, porque se le pasa una función porque si ponemos el console.log se va a ejecutar de manera inmediata
+        // console.log("c")
+
+
+
+
+
+
+        setTimeout( () => console.log("d"), 2000) //que ejecute la arrow function imprime d en 2s 
+        for (var i = 0; i < 100000; i++) {
+            console.log("Hola que lq")
+        }
+        // pero que pasa si nosotros ejecutamos esa funcion y luego tenemos un monton de codigo, le tarda mucho tiempo a js ejecutar nuestro programa
+        // creamos un bucle for, veamos cuando tiempo tarda en aparecer la d en pantalla
+        // lo que esta pasando es que js sigue ejecutando nuestro programa principal, la tarea de mostrar en consola la letra d ya esta lista para ejecutar pero js no la va a ejecutar hasta que no termine el programa principal
+    
+    
+    
+    </script>
+</body>
+</html>
