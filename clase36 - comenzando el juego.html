@@ -104,6 +104,7 @@
             constructor() {
                 this.inicializar() //llama a al metodo inicializar()
                 this.generarSecuencia()
+                this.siguienteNivel()
             }
 
             inicializar() { // va a ocultar el boton de empezar, primero tenemos que obtenerlo para poder manejarlo
@@ -120,6 +121,45 @@
             generarSecuencia() { //este metodo nos devuelve un array con 10 numeros y cada numero devolvera un numero random de 0 a 3
                 this.secuencia = new Array(10).fill(0).map( (n) => Math.floor(Math.random() * 4) )
             }
+
+            siguienteNivel() { //este metodo este va a llamar a iluminar secuencia, cada vez que llegue a un nuevo nvl se va a iluminar la secuencia
+              this.iluminarSecuencia()
+            }
+
+            transformarNumeroAColor(numero) { //este metodo pasa de numero a color
+              switch (numero) {
+                case 0: //en caso que sea 0 retornara celeste no hace falta el break
+                  return "celeste"
+                case 1:
+                  return "violeta"
+                case 2:
+                  return "naranja"
+                case 3:
+                  return "verde"
+              }
+            }
+
+            iluminarSecuencia() {//este metodo va a recorrer el array this.secuencia hasta el nivel en el que este el usuario. El nivel del usuario va a empezar en 1 y a medida que se vayan pasando los niveles el this.nivel se ira incrementando
+              for (let i = 0; i < this.nivel; i++) {
+                //obtener el color a iluminar y llamar a una funcion para que lo ilumine
+                const color = this.transformarNumeroAColor(this.secuencia[i]) // ponemos let atravez de var para que color se mantenga y no se pise en el for  |por cada numero del array secuencia ira transformando a color y este nos retorna el color un string
+                // console.log(color) // al declarar color con var cada ciclo va a pisar esa variable color con el ultimo color de la secuencia
+                setTimeout( () => this.iluminarColor(color), 1000 * i) //llamar al metodo para que ilumine el color que mandamos por parametro y se llamara en un periodo de timepo referente al i el 1er color se ilumina ya el 2do en 2segundos y asi depende el nivel
+              }
+            }
+
+            iluminarColor(color) {
+              this.colores[color].classList.add("light") //del atributo colores el que sea igual al color que pasamos por parametro lo cogemos al boton y le añadiremos una clase css que cambiara el color a light osea se va a iluminar
+              // ahora tenemos que apagar la iluminacion lllamara al metodo en 350milisegundos
+              setTimeout( () => this.apagarColor(color), 350 )
+            }
+
+            apagarColor(color) {//este metodo recibira un color
+              this.colores[color].classList.remove("light") //del atributo colores el tenga como clave el color del parametro le quitamos la clase
+            }
+
+
+
         }
 
       function empezarJuego() {
