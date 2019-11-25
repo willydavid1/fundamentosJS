@@ -108,6 +108,7 @@
             }
 
             inicializar() { // va a ocultar el boton de empezar, primero tenemos que obtenerlo para poder manejarlo
+                this.elegirColor = this.elegirColor.bind(this) //el atributo-metodo elegir color quedara atado, tendra como referencia al this como instancia para que no pierda el contexto de this(la instancia de la clase)| //atame al this de aca (la instancia) a al metodo que estes llamando tambien se suele ver asi | var self = this y se manda en el this o var _this = this
                 btnEmpezar.classList.add("hide")
                 this.nivel = 1
                 this.colores = { //seran los botones
@@ -124,6 +125,7 @@
 
             siguienteNivel() { //este metodo este va a llamar a iluminar secuencia, cada vez que llegue a un nuevo nvl se va a iluminar la secuencia
               this.iluminarSecuencia()
+              this.agregarEventosClick() //llamamos a un metodo que agrega los evento de click a los botones
             }
 
             transformarNumeroAColor(numero) { //este metodo pasa de numero a color
@@ -158,8 +160,20 @@
               this.colores[color].classList.remove("light") //del atributo colores el tenga como clave el color del parametro le quitamos la clase
             }
 
+            agregarEventosClick() {
+              //cada uno de los colores (botones) vamos a agregarle el evento click y decirle al navegador que funcion va a ejecutar cuando se realize ese evento click | es asincrona js le dice al navegador paso este evento ejecuta la funcion pasa por el eventloop, y js cuando se quede sin tareas la va a ejecutar
+              this.colores.celeste.addEventListener( "click", this.elegirColor )
+              this.colores.verde.addEventListener("click", this.elegirColor) //para agregar un manejador de eventos o escuchador de eventos (nombredelevento, funcion a ejecutar y manda un parametro(el evento como tal)), estaremos a la escucha cuando ocurra el evento click llamara a la funcion cuando el hilo de ejecucion callstack se quede sin tareas recien ejecutara este callback
+              this.colores.violeta.addEventListener("click", this.elegirColor) 
+              this.colores.naranja.addEventListener("click", this.elegirColor) 
+            }
 
-
+            // js va a perder el contexto cuando llame a elegircolor, significa que perdemos el contexto de this, en este caso es el boton al cual se esta llamando pero si yo quiero que siga siendo this la instancia, tenemos que especificarlo con .bind(this) a la llamada que le dice quien va a hacer el this y si no lo ponemos el boton sera this, significa atame
+            //el escuchador de eventos manda un parametro que es el evento con muchos detalles, tenemos en sus atributos del evento llamado target, que nos dice en que elemento se presiono el click
+            elegirColor(ev) {
+              // this como se lo especificamos con .bind(this) no pierde el contexto y this es equivalente a la instancia y no al boton
+              console.log(this)
+            }
         }
 
       function empezarJuego() {
