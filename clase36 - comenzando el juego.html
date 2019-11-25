@@ -99,16 +99,18 @@
         const naranja = document.getElementById('naranja')
         const verde = document.getElementById('verde')
         const btnEmpezar = document.getElementById('btnEmpezar') //obtenemos el boton completo
-        
+        const ULTIMO_NIVEL = 10
+
         class Juego {
             constructor() {
                 this.inicializar() //llama a al metodo inicializar()
                 this.generarSecuencia()
-                this.siguienteNivel()
+                setTimeout(this.siguienteNivel, 500)
             }
 
             inicializar() { // va a ocultar el boton de empezar, primero tenemos que obtenerlo para poder manejarlo
                 this.elegirColor = this.elegirColor.bind(this) //el atributo-metodo elegir color quedara atado, tendra como referencia al this como instancia para que no pierda el contexto de this(la instancia de la clase)| //atame al this de aca (la instancia) a al metodo que estes llamando tambien se suele ver asi | var self = this y se manda en el this o var _this = this
+                this.siguienteNivel = this.siguienteNivel.bind(this) //la funcion this.siguienteNivel siempre estara atada a la instancia juego, no cambiara el contexto. Asi la llame el navegador con un setTimeout| cuando llamemos a this.siguienteNivel tendra como referencia al this como instancia y no como windows
                 btnEmpezar.classList.add("hide")
                 this.nivel = 1
                 this.colores = { //seran los botones
@@ -120,10 +122,11 @@
             }
 
             generarSecuencia() { //este metodo nos devuelve un array con 10 numeros y cada numero devolvera un numero random de 0 a 3
-                this.secuencia = new Array(10).fill(0).map( (n) => Math.floor(Math.random() * 4) )
+                this.secuencia = new Array(ULTIMO_NIVEL).fill(0).map( (n) => Math.floor(Math.random() * 4) )
             }
 
             siguienteNivel() { //este metodo este va a llamar a iluminar secuencia, cada vez que llegue a un nuevo nvl se va a iluminar la secuencia
+              this.subnivel = 0 // atributo subnivel que empieza en cero
               this.iluminarSecuencia()
               this.agregarEventosClick() //llamamos a un metodo que agrega los evento de click a los botones
             }
@@ -140,6 +143,20 @@
                   return "verde"
               }
             }
+
+            transformarColorANumero(color) { //este metodo pasa de color a numero
+              switch (color) {
+                case "celeste": //en caso que sea celeste retorna 0
+                  return 0
+                case "violeta":
+                  return 1
+                case "naranja":
+                  return 2
+                case "verde":
+                  return 3
+              }
+            }
+
 
             iluminarSecuencia() {//este metodo va a recorrer el array this.secuencia hasta el nivel en el que este el usuario. El nivel del usuario va a empezar en 1 y a medida que se vayan pasando los niveles el this.nivel se ira incrementando
               for (let i = 0; i < this.nivel; i++) {
@@ -168,12 +185,44 @@
               this.colores.naranja.addEventListener("click", this.elegirColor) 
             }
 
+            eliminarEventosClick() { //elimina los eventos del click y cuando el usuario pase de nivel se agregan los eventos de click
+              this.colores.celeste.removeEventListener( "click", this.elegirColor )
+              this.colores.verde.removeEventListener("click", this.elegirColor) //para agregar un manejador de eventos o escuchador de eventos (nombredelevento, funcion a ejecutar y manda un parametro(el evento como tal)), estaremos a la escucha cuando ocurra el evento click llamara a la funcion cuando el hilo de ejecucion callstack se quede sin tareas recien ejecutara este callback
+              this.colores.violeta.removeEventListener("click", this.elegirColor) 
+              this.colores.naranja.removeEventListener("click", this.elegirColor) 
+            }
+
             // js va a perder el contexto cuando llame a elegircolor, significa que perdemos el contexto de this, en este caso es el boton al cual se esta llamando pero si yo quiero que siga siendo this la instancia, tenemos que especificarlo con .bind(this) a la llamada que le dice quien va a hacer el this y si no lo ponemos el boton sera this, significa atame
-            //el escuchador de eventos manda un parametro que es el evento con muchos detalles, tenemos en sus atributos del evento llamado target, que nos dice en que elemento se presiono el click
+            //el escuchador de eventos manda un parametro que es el evento con muchos detalles, tenemos en sus atributos del evento llamado target, que nos dice en que elemento se presiono el click | aca va ir toda la logica de que si toco el bon o no bien
             elegirColor(ev) {
               // this como se lo especificamos con .bind(this) no pierde el contexto y this es equivalente a la instancia y no al boton
-              console.log(this)
+              
+              // event=>target=>dataset=>color="violeta" | dentro del event, tenemos atributo target (esto nos muestra el elemento donde sucedio el evento) y dentro del atributo target tenemos un atributo llamado dataset que sale de la etiqueta que le asignamos en el html con data-valordeldata(color)="violeta"
+              const nombreColor = ev.target.dataset.color //a la const le vamos a asignar el nombre dataset del color que se presiono del boton
+              const numeroColor = this.transformarColorANumero(nombreColor) //con esto tenemos el numero del color que le dio click
+              this.iluminarColor(nombreColor) //con esto iluminamos el color al que le hagamos click
+            
+            // el sub nivel empieza en cero y se va ir incrementando a medida que el usuario vaya tocando cada uno de los colores y que se haga en la secuencia
+            // compararemos el numerodelcolor que se presiono con la secuencia pero en la posicion del subnivel en el que se encuentra
+            if(numeroColor === this.secuencia[this.subnivel]) {//si el color que selecciono es igual al numerodelcolor de la secuencia ejecuta esto | si le dio al color correcto
+              this.subnivel++ // si el usuario en nivel uno elige bien el color, el subnivel incrementa 1 vale 1
+              
+              if (this.subnivel === this.nivel) { //si esto sucede el usuario pasa de nivel
+                this.nivel++
+                this.eliminarEventosClick()//si el usuario pasa de nivel ya no tiene que seguir seleccionando colores
+                
+                if ( this.nivel === (ULTIMO_NIVEL + 1) ) {//SI ESTA EN NVL 10 Y PASA AL 11 LISTO GANO | si this.nivel es igual a 11 gano
+                  //gano
+                }else { //si no es el ultimo nvl avanza de nvl
+                  setTimeout(this.siguienteNivel, 1500); //llama en 2s a esa funcion, pero no la estamos invocando, pero le estamos diciendo cual es la funcion que tiene que llamar | el setTimeout delega al navegador la ejecucion de la funcion y this vale windows y no a la instancia
+                }
+              }
+            } else { //SI NO PRESIONO EL BOTON CORRECTO DE LA SECUENCIA
+              //perdio
+              }
+
             }
+
         }
 
       function empezarJuego() {
