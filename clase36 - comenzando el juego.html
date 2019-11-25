@@ -82,6 +82,10 @@
       .hide {
         display: none;
       }
+
+      * {
+        font-family: "Arial";
+      }
     </style>
   </head>
   <body>
@@ -92,6 +96,9 @@
       <div id="verde" class="color verde right" data-color="verde"></div>
       <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
     </div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script>
         // obtenemos los botones
         const celeste = document.getElementById('celeste')
@@ -103,6 +110,7 @@
 
         class Juego {
             constructor() {
+                this.inicializar = this.inicializar.bind(this) //esa funcion siempre estara atada a la instancia juego, no cambiara el contexto.
                 this.inicializar() //llama a al metodo inicializar()
                 this.generarSecuencia()
                 setTimeout(this.siguienteNivel, 500)
@@ -111,7 +119,7 @@
             inicializar() { // va a ocultar el boton de empezar, primero tenemos que obtenerlo para poder manejarlo
                 this.elegirColor = this.elegirColor.bind(this) //el atributo-metodo elegir color quedara atado, tendra como referencia al this como instancia para que no pierda el contexto de this(la instancia de la clase)| //atame al this de aca (la instancia) a al metodo que estes llamando tambien se suele ver asi | var self = this y se manda en el this o var _this = this
                 this.siguienteNivel = this.siguienteNivel.bind(this) //la funcion this.siguienteNivel siempre estara atada a la instancia juego, no cambiara el contexto. Asi la llame el navegador con un setTimeout| cuando llamemos a this.siguienteNivel tendra como referencia al this como instancia y no como windows
-                btnEmpezar.classList.add("hide")
+                this.toggleBtnEmpezar() // el toggle sirve como un de prendido apagado, de acuerdo si tiene una  clase lo vamos a ocultar o no
                 this.nivel = 1
                 this.colores = { //seran los botones
                     celeste, //este atributo celeste le asignamos la constante celeste que es un boton
@@ -119,6 +127,14 @@
                     naranja,
                     verde
                 }
+            }
+
+            toggleBtnEmpezar() { //este metodo se va a fijar si tiene la clase hide o si no se la agrega el boton de empezar
+              if ( btnEmpezar.classList.contains("hide") ) { //si ya tiene la clase hide el boton
+                btnEmpezar.classList.remove("hide") //si el boton tiene la clase hide se la quitamos
+              } else {
+                btnEmpezar.classList.add("hide") //caso contrario se la añadimos tio
+              }
             }
 
             generarSecuencia() { //este metodo nos devuelve un array con 10 numeros y cada numero devolvera un numero random de 0 a 3
@@ -212,15 +228,29 @@
                 this.eliminarEventosClick()//si el usuario pasa de nivel ya no tiene que seguir seleccionando colores
                 
                 if ( this.nivel === (ULTIMO_NIVEL + 1) ) {//SI ESTA EN NVL 10 Y PASA AL 11 LISTO GANO | si this.nivel es igual a 11 gano
-                  //gano
+                  this.ganoElJuego()
                 }else { //si no es el ultimo nvl avanza de nvl
                   setTimeout(this.siguienteNivel, 1500); //llama en 2s a esa funcion, pero no la estamos invocando, pero le estamos diciendo cual es la funcion que tiene que llamar | el setTimeout delega al navegador la ejecucion de la funcion y this vale windows y no a la instancia
                 }
               }
-            } else { //SI NO PRESIONO EL BOTON CORRECTO DE LA SECUENCIA
-              //perdio
+            } else { //SI NO PRESIONO EL BOTON CORRECTO DE LA SECUENCIA perdio
+              this.perdioElJuego()
+
               }
 
+            }
+
+            ganoElJuego() {
+              swal("Jueguito simon dice xD", "Felicitaciones, ganaste el juego!", "success") // este swal lo que hace es devolvernos una promesa
+                .then( this.inicializar ) //despues que se resuelva la promesa vamos a ejecutar el this.inicializar este tiene en el constructor atado el contexto de this como el de la instancia| despues que el usuario haga click en cerrar swal
+            }
+
+            perdioElJuego() {
+              swal("Jueguito simon dice xD", "Lo lamentamos, perdiste ☹", "error") // este swal lo que hace es devolvernos una promesa
+                .then( () => { //despues que el usuario haga click en cerrar swal
+                  this.eliminarEventosClick()
+                  this.inicializar()
+                }) 
             }
 
         }
