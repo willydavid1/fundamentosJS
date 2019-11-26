@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>clase 37 - var, let y const: las diferencias entre ellos</title>
+</head>
+<body>
+    <script>
+
+        var willy = {
+            nombre: "Willy",
+            apellido: "Daconceicao",
+            edad: 28
+        }
+
+        //
+        function esMayorDeEdad(persona) {
+            let mensaje
+            const MAYORIA_DE_EDAD = 18
+            if (persona.edad >= MAYORIA_DE_EDAD){
+                //declararemos en una variable el mensaje a mostrar
+                mensaje = "Es mayor de edad"
+            } else {
+                mensaje = "Es menor de edad"
+            }
+            console.log(mensaje)
+        }
+
+        // esMayorDeEdad(willy)
+
+        for (let i = 0; i < 10; i++) { //se ejecutara del 0 al 9 porque 10 no es menor a 10 son iguales xD
+            console.log(i)
+            
+        }
+        console.log(`Termino el for, el valor de i es ${i}`)
+
+
+        // LAS VARIABLES
+        //  pasa el siguiente efecto js sube la declaracion arriba de la funcion de todas las variables y luego hace la asignacion
+        //  cuando declaramos variables con var siempre conviene declararlas, arriba al comienzo vacias y luego si ir modificandolas
+
+        // SI UTILIZAMOS LET
+        // el alcanze de la varible (es decir desde donde nosotros podemos acceder a esta variable) se reduce al bloque donde esa variable es declarada 
+        // si queremos utilizar let en estos casos podemos declarar let mensaje | al principio del cuerpo de la funcion y luego realizar la asignacion | mensaje = "este es el mensaje de let"
+
+        //CONST
+        // Se comporta parecido a let, solo que no podemos volver a pisar la variable, es decir sera constante no modificable
+        // si declaramos un array y lo almacenamos dentro de una const no podemos reasignar el array por ejmp. const numeros = [1,2] por numeros= [1]
+        // pero si podemos agregar un nuevo elemento con .push(valoraagregar) y modificar sus valores
+
+        // para los ciclos for
+        // cuando a la variable iteradora la declaramos con var esta se puede acceder afuera del bucle for 
+        // pero que pasa cuando la declaramos con let simplemente let reduce el alcance de la variable y esta se va a utilizar dentro del bucle unicamente :)
+        
+        // La recomendación es reducir siempre al mínimo el alcance de nuestras variables,
+        //  por lo que se debe usar let en lugar de var mientras sea posible.
+        // Y si nunca tenemos que reasignar la variable la definimos con const para evitar bugs
+
+    </script>
+</body>
+</html>
