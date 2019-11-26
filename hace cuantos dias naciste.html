@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>¿Hace cuántos días naciste?</title>
+</head>
+<body>
+    <script>
+        // calcularemos la edad en dias
+        function diasEntreFechas(fecha1, fecha2) {
+            // 1000ms son 1 segundo, por 60 son un minuto, por 60 es una hora, por 24 es dia
+            const unDia = 1000 * 60 * 60 * 24 //para calcular cuantos milisegundos hay en un dia
+            const diferencia = Math.abs( fecha1 - fecha2 )  //esto retorna un numero en milisegundos, que es la diferencia entre ambas fechas, calculamos la diferencia entre las dos fechas, el Math.abs lo que hace es pasar el numero a formato positivo y si esta positivo se queda positivo, lol esto lo vi en bachiller xD
+            return Math.floor( diferencia / unDia ) //tenemos la cantidad de milisegundos entre una fecha y otra dividida entre la cantidad de milisegundos que hay en un solo dia, con esto tenemos cuantos dias occurieron en la diferencia de fechas
+        }
+
+        const hoy = new Date() //new date tiene la fecha actual por defecto
+        const nacimiento = new Date(1990, 7, 12) //el constructor recibe año/mes/dia
+
+        //si llamamos a la funcion diasEntreFechas lo que va a hacer es calcular la edad en dias
+        // si dividimos entre 365 nos retorna la edad en años
+        // y asi aplicamos calculos con fechas en js
+
+    </script>
+</body>
+</html>
