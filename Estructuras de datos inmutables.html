@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Estructuras de datos inmutables</title>
+</head>
+<body>
+    <script>
+        const willy = {
+            nombre: "Willy",
+            apellido: "Daconceicao",
+            edad: 28
+        }
+
+        // const cumpleanos = (persona) => persona.edad++ //si llamamos a esta funcion y le pasamos como parametro el objeto willy vemos que tiene un efecto de lado, modifica el objeto fuera de la funcion
+    
+        // estas estructuras van a permitirnos quitar el efecto de lado, creando una funcion inmutable es decir no modifica el objeto original, que recibe una persona y va a devolver un nuevo obj de js donde pisaremos atributos, con esto estamos creando un objeto nuevo en memoria no estamos modificando el objeto anterior
+        const cumpleanosInmutable = (persona) => ({
+            ...persona, //desglosamos a la persona (un Objeto) es decir, colocamos cada uno de sus atributos en este nuevo objeto 
+            edad: persona.edad + 1 //pisamos el atributo edad
+        })
+
+        // La unica desventaja es que tenemos que definir una nueva variable para referirnos al nuevo objeto que estamos retornando que va a hacer un willyMasViejo porque modificamos su atributo edad en 1
+        const willy29 = cumpleanosInmutable(willy)
+
+        // willy = {nombre: "Willy", apellido: "Daconceicao", edad: 28} - EL OBJETO ORIGINAL
+        // willy29 = {nombre: "Willy", apellido: "Daconceicao", edad: 29} - EL OBJETO QUE MODIFICAMOS, PERO EVITAMOS EL EFECTO DE LADO
+    
+        // MI DEFINICION: Consiste simplemente que a través de modificar un objeto donde modificamos sus atributos en una función es mejor hacerlo retornando un nuevo objeto así nos evitamos ese efecto de lado que consiste en modificar atributos del objeto original. La unica desventaja es que tenemos que definir una nueva variable para referirnos al nuevo objeto que estamos retornando que va a hacer un willyMasViejo porque modificamos su atributo edad en 1
+    
+    </script>
+</body>
+</html>
