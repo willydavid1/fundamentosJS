@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>closures</title>
+</head>
+<body>
+    <script>
+        //los closureses son una función que recuerda el estado de las variables al momento de ser invocada, y conserva este estado a través de reiteradas ejecuciones
+        
+        function crearSaludo(finalDeFrase) {
+            return function (nombre) { //esta es la funcion que retorna el crearSaludo, va a hacer el saludoArgentino, saludoMexicano y saludoColombiano | nombre tomara lo que mandemos cuando llamemos a esas variables
+                console.log(`Hola ${nombre} ${finalDeFrase}`)
+            }
+        }   
+        //la primera funcion sera generadora de otras funciones 
+        // y la segunda una funcion anonima que es la que retorna, el saludo como tal
+
+        const saludoArgentino = crearSaludo("che") //ESTO ES LO QUE RECUERDA CUANDO USAMOS CLOSURES, ESTE PARAMETRO
+        const saludoMexicano = crearSaludo("guey")
+        const saludoColombiano = crearSaludo("Parce")
+
+        saludoArgentino("Sacha") // Hola Sacha che 
+        saludoMexicano("Sacha") // Hola Sacha guey
+        saludoColombiano("Sacha") // Hola Sacha Parce
+
+        // lo que estamos mandando como parametro aqui lo tomara la funcion anonima como nombre, entonces la función recuerda el estado de las variables al momento de ser invocada, es decir recuerda los parametro de la funcion crearSaludo() que es la que esta mas arriba 
+
+    </script>
+</body>
+</html>
