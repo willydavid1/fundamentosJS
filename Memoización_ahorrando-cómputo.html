@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Memoización: ahorrando cómputo</title>
+</head>
+<body>
+    <script>
+    // nos permite ahorrar computo guardando el resultado de algunas cuentas
+    /* 
+    ejemplo de recursividad factorial
+        factorial de 6 | !6 es lo mismo que
+        !6 = 6 * 5 * 4 * 3 * 2 * 1 = 720 | caso base es el 1
+        !12 = 12 * 11 * 10 * 9 * 7 * !6 | si calculamos el factorial de 12 tambien estamos calculando el de 6
+        
+        lo que vamos a ver en esta clase es como guardarnos resultados para que luego no tengamos que volver a realizar esa cuenta| cuando son numeros grandes se pone complejo
+  
+  */
+
+    function factorial(n) {
+
+        // lo que vamos a hacer guardarnos en una cache interna, los resultados que nos da los resultados calculador
+        if(!this.cache) { //si la cache de esta funcion esta definida| si no esta definida ejecutamos el if | esto se va a ejecutar la primera vez que se llame a la funcion
+            this.cache = {}
+
+        }
+        debugger
+        if (this.cache[n]) { //si this.cache[n] existe retornarlo y chao
+            return this.cache[n]
+        }
+
+        if (n === 1){ //caso base
+            return 1
+        }
+
+        this.cache[n] = n * factorial(n - 1) // vamos a guardar en el objeto this.cache el valor factorial de un numero
+        debugger
+        return this.cache[n] // esto es si todavia no existe el calculo, la primera vez que se ejecute un factorial se ejecutaran estas dos lineas esta y la de arriba porque todavia no existe en la cache
+    }
+        // cuando pedimos de vuelta el factorial de 6 llegamos y al 2 if y si ya existe ese valor en el objeto chache, pues lo muestra
+
+    </script>
+</body>
+</html>
