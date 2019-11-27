@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recursividad clase 39</title>
+</head>
+<body>
+    <script>
+        // realizaremos una division entera entre dos numeros (es decir sobra algo, no es exacta)
+        /*
+            13 /_4___  (dividendo 13 y divisor 4)
+
+                            estos 1 son como cuentas 
+            13 - 4 = 9    1
+            9 - 4 = 5     1
+            5 - 4 = 1     1
+            1 - 4 = -3   0 esto ya no es parte de la division entera
+
+            finalmente la division entera de 13 sobre 4 es 3 por las tres cuentas
+            
+            la condicion para seguir haciendo cuentas es que el dividendo sea mayor o igual al divisor, que no sea negativo
+         */
+
+        // para aplicar recursividad necesitamos un caso base y otro recursivo
+        // caso base cuando el dividendo es menor estricto al divisor
+        function divisionEntera(dividendo, divisor) {
+            if (dividendo < divisor) {//preguntamos si estamos en el caso base, si el dividendo es menor que el divisor estariamos en este caso | 1 - 4 = -3
+                return 0
+            }
+
+            return 1 + divisionEntera(dividendo - divisor, divisor) //esta cuenta de aca dividendo - divisor es esto | 13 - 4 = 9 y eso nos da un 1 y es el que estamos sumando aca y vamos a llamar de nuevo a la misma funcion pero el dividendo sera 9 es la operacion de restar el dividendo y el divisor, luego volvemos a preguntar si estamos en el caso base| si estamos en el caso base se retorna 0 y se acaba la recursividad
+        }
+
+    </script>
+</body>
+</html>
