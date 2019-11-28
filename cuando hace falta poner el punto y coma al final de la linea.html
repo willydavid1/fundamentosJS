@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cuando hace falta poner el punto y coma al final de la linea</title>
+</head>
+<body>
+    <script>
+        alert("hola") //opcional ;
+        var nombre = "Willy" //opcional ;
+        const saludarASacha = function () {} //no hace falta porque es una asignacion y declaracion
+        
+        function saludar() {
+            console.log("jsadhksjd")
+        }; //ese punto y coma es totalmente innecesario
+
+        for (let index = 0; index < 10; index++) {
+            console.log("Hola mundo")
+            
+        }; //<-- este punto y coma es totalmente innecesario
+
+        //casos donde es obligatorio el punto y coma | Al comenzar la próxima línea con un array y Al comenzar la próxima línea con un template string
+
+        console.log("Hola mi nombre es Willy"); //<--- ;
+        [1, 2, 3].forEach( (element) => console.log(element * 2) ) //foeEach iterra a cada elemento del array y lo pasa como parametro
+
+        const nombre = "Willy"
+        console.log("Hola mi nombre es Willy"); //<--- ;
+        `${nombre} es un desarrollador`
+
+        //ESTO ESTA MALO LO QUE VAMOS A RETORNAR TIENE QUE ESTAR EN LA MISMA LINEA
+        function calcularDoble(numero) {
+            return //cuando hacemos un enter al return es como si hubiera un ; asi | return ;
+            { 
+                original: numero, doble: numero * 2
+            } //retornamos un objeto
+        }
+
+        // ASI ESTA BIEN
+        function calcularDoble(numero) {
+            return { //retornamos un objeto
+                original: numero, doble: numero * 2
+            } 
+        }
+
+
+    </script>
+</body>
+</html>
