@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cambiando de contexto al llamar a una función</title>
+</head>
+<body>
+    <script>
+        // De que hablamos cuando hablamamos de contexto en JavaScript? nos referimos a quien es el objeto this cuando se ejecuta un codigo
+        // unos de los errores mas comunes es no se puede ejecutar este metodo porque es undefined
+        // y eso es porque el this no esperamos quien nosotros esperamos que sea
+        
+        const willy = {
+            nombre: "Willy",
+            apellido: "Daconceicao",
+        }
+        const yesika = {
+            nombre: "Yesika",
+            apellido: "Cortes",
+        }
+
+        function saludar(saludo = "Hola") {
+           console.log(`${saludo}, mi nombre es ${this.nombre}`) //aqui this hace referencia a windows, porque es window quien esta ejecutando la funcion saludar, ya que la funcion esta en un scope global | window.saludar() vemos que esta en window
+        }
+        
+        // Entoces como hacemos para cambiar ese this de la funcion
+        //=> bind retorna una nueva funcion con el contexto cambiado, el .bind(objeto a relacionar this, parametros en el orden que aparescan) no modifica la funcion original saludar solo devuelve una nueva funcion que tiene al objeto atado al this
+        
+        const saludarAWilly = saludar.bind(willy, "Esto es un saludo, un parametro de la funcion") // primero relacionamos que contexto va a tener this como primer parametro y como segundos los de la funcion
+        // saludarAWilly() RETORNA Esto es un saludo, un parametro de la funcion, mi nombre es Willy
+
+        const saludarAYesica = saludar.bind(yesika, "Esto es un saludo") // primero relacionamos que contexto va a tener this como primer parametro y como segundos los de la funcion
+        // saludarAYesica() RETORNA Esto es un saludo, mi nombre es Yesika
+
+        setTimeout( saludar.bind(willy, "Hola che"), 1000)
+
+
+        // .call y .apply ejecutan la funcion al momento
+        saludar.call(willy, "Hola che") //la llama al momento y se pasan los parametros separados por coma
+        // RETORNA Hola che, mi nombre es Willy al momento porque llama a la funcion
+        
+        saludar.apply(willy, ["Hola che"]) // la llama al momento solo que al segundo parametro es un array y ese array contiene los parametros de la funcion
+    
+
+
+
+
+
+//         DIFERENCIAS ENTRE .BIND() Y .CALL(), .APPLY()
+// -    El método .bind(objeto a relacionar this) retorna una nueva función con el contexto cambiado de this, y no modifica la función original, se puede decir que enviamos la referencia a la función sin ejecutarla, pasando el contexto como parámetro.
+// -    .call(valor a relacionar como this dentro de esa funcion)| saludar.bind(willy, "Hola che") RETORNA Hola che, mi nombre es Willy| es diferente a .bind() porque apenas se invoca se llama no es como .bind() que no la ejecuta la función sino que retorna
+// -    Y el .apply(quien será el this, [“Hola che”] ) es lo mismo que el call llama instantáneamente a la función pero se le pasan los parámetros con un array 
+// NINGUNO MODIFICA LA FUNCION ORIGINAL, SIMPLEMENTE LA RETORNA O LA LLAMA PERO CON ESE CONTEXTO DE QUIEN ES THIS
+
+    
+    </script>
+</body>
+</html>
