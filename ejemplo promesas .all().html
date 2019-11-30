@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ejemplo promesas.all()</title>
+</head>
+<body>
+    <script>
+        profesion = {
+            1: "Programador",
+            2: "Diseñador"
+            
+        }
+        function getProfesion(id) {
+            return new Promise( (resolved, reject) => {
+                setTimeout( () => {
+                    resolved(profesion[id])
+                }, 200 )
+            } )
+        }
+
+
+    //el Promise.all([ arreglo de promesas ]) esto se resuelve como un array que preserva el orden de las promesas que le pasamos como parametro
+    // funcionaria asi .all() nos permite sincronizar codigo, hace dos llamadas no sabemos que promesa se resolvera primero y cual despues, el .all() realiza tus llamadas y yo te aviso cuando tenga las respuestas de todas las promesas que me estas pasando y te las mando con un .then() y todas las respuestas estaran en un array
+    // el Promise.all([ ]) no retorna nada hasta que se resuelvan todas las promesas
+
+        Promise.all([ getProfesion(1), getProfesion(2) ]) 
+            .then( (respuesta) => console.log(respuesta) ) //esta respuesta es un array y ese array tiene la resolucion de las promesas en orden como se las pasamos como parametros en el array
+
+
+// Conclusión con el Promise.all([arreglo de promesas resueltas]), nos sirve para pedir cosas simultáneamente, el .all() retorna una promesa resuelta como array, así que con el .then() podemos acceder al array que retorna el .all() con las promesas resueltas ["Programador", "Diseñador], la respuesta es una array y ese array tiene la resolución de las promesas y mantiene el orden. 
+
+    </script>
+</body>
+</html>
