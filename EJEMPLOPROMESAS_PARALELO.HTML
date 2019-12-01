@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promesas en paralelo</title>
+</head>
+<body>
+        <script 
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script>
+        
+        
+    const API_URL = "https://swapi.co/api/"
+    const PEOPLE_URL = "people/:id"
+    const options = { crossDomain: true }
+
+    // para hacer un request en jquery | $ es una funcion
+    function obtenerPersonaje(id) {
+
+        return new Promise( (resolve,reject) => { //resolve=resolver | reject=rechazado
+            const url = `${API_URL}${PEOPLE_URL.replace(":id", id)}` //obtenemos url segun id parametro
+            $
+                .get(url, options, function (data) {
+                    resolve(data) //si se resuelve la promesa, mandamos un parametro con data
+                })
+                .fail( () => reject(id) ) //si falla rechazamos la promesa y pasamos id
+        } )  
+
+    }
+
+
+    function onError(id) {
+        console.log(`Sucedio un error al obtener el personaje ${id}`)
+    }
+
+
+    const ids = [1, 2, 3, 4, 5, 6, 7]
+
+    var promesas = ids.map( (id) => obtenerPersonaje(id) )
+    Promise.all(promesas) //esto se resuelve como un array que preserva el orden de las promesas que le pasamos como parametro hasta que todas se resuelvan
+        .then( (personajes) => console.log(personajes) )
+        .catch(onError)
+
+    </script>
+</body>
+</html>
