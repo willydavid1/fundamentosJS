@@ -37,13 +37,31 @@
         console.log(`Sucedio un error al obtener el personaje ${id}`)
     }
 
+    //esto es una funcion asincrona
+    async function obtenerPersonajes() {
+        const ids = [1, 2, 3, 4, 5, 6, 7]
+        var promesas = ids.map( (id) => obtenerPersonaje(id) ) // esto es un array lleno de promesas resueltas
+        try {
+            var personajes = await Promise.all(promesas) // cuando todas las promesas se resuelvan, el resultado guardamelo en la variable personajes (un array con las promesas resueltas), la ejecucion del codigo se detiene aca hasta que la resolucion de las promesas sea resuelta y recien alli ese valor se guardara en la variable personajes
+            console.log(personajes)
+        } catch (id) {
+            onError(id)
+        }
 
-    const ids = [1, 2, 3, 4, 5, 6, 7]
+    }
 
-    var promesas = ids.map( (id) => obtenerPersonaje(id) )
-    Promise.all(promesas) //esto se resuelve como un array que preserva el orden de las promesas que le pasamos como parametro hasta que todas se resuelvan
-        .then( (personajes) => console.log(personajes) )
-        .catch(onError)
+    obtenerPersonajes() //LLAMADO A LA FUNCION ASINCRONA
+
+
+
+    // Lo que hace el await es detener la ejecución de la función allí hasta que 
+    // todas la promesas sean resueltas | var personajes = await Promise.all(promesas) 
+    // y recién allí ese valor (un array con las promesas resueltas) se guarda en la variable personajes y la estructura
+    // tiene que estar dentro de un try y catch para obtener el valor de la resolución de
+    // la promesa, en llamado asíncrono el await tiene que estar dentro del try y los 
+    // errores los recibimos en el catch | en este caso var personajes es un array con 
+    // las promesas resueltas
+
 
     </script>
 </body>
