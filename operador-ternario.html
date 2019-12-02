@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Operador ternario</title>
+</head>
+<body>
+    <script>
+        // (CONDICION) ? RESULTADO_CIERTO : RESULTADO FALSO
+        var edad = 12
+        var puedeVotar = ( edad > 18 ) ? "Puede votar" : "No puede botar"
+
+        // eso es lo mismo que esto
+        if ( edad > 18 ) { //si la edad es mayor a 18
+            var puedeVotar = "Puede votar"
+        } else {
+            var puedeVotar = "No puede botar"
+        }
+
+        alert( puedeVotar )
+    </script>
+</body>
+</html>
