@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Destructuración de Arreglos</title>
+  </head>
+  <body>
+    <script>
+      // definimos un array comun y corriente xD
+      const persona = ["Willy david", 18, "Colombia", "Desarrollador web"];
+
+      // Destructuración de Arreglos significa transformar cada uno de estos elementos a variables para acceder a ellos de una manera mas facil sin depender de su indice.
+      //  la sintaxis es asi [LO_QUE_VAMOS_A_DESESTRUCTURAR] = ARRAY-A-Destructurar | ejemplo const [nombre] = persona; aqui desestructuramos del array el indice 0 en este caso el nombre y lo convierte a variable
+
+      const [nombre, edad, pais, profesion = "VALOR POR DEFECTO"] = persona; //  des-estructuramos  todos estos valores del array persona y los asignamos como variable
+
+      console.log(profesion); //retorna Desarrollador web
+
+      //   si queremos que no nos asigne un valor del array lo dejamos en blanco
+      //   const [nombre, , pais, profesion] = persona; //  des-estructuramos  todos estos valores del array persona y los asignamos como variable
+      //   console.log(pais)
+
+      //   desestructuramos por parametro | del array persona agarramos el nombre indice 0 y lo pasamos como parametro | otra forma de hacerlo es asi ([nombre])
+      const mostrarInfo = ([nombre] = persona) => {
+        console.log(nombre);
+      };
+
+      mostrarInfo(persona);
+    </script>
+  </body>
+</html>
